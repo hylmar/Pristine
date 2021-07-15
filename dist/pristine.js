@@ -17,7 +17,8 @@
             min: "Minimum value for this field is ${1}",
             max: "Maximum value for this field is ${1}",
             pattern: "Please match the requested format",
-            equals: "The two fields do not match"
+            equals: "The two fields do not match",
+            default: "Please enter a correct value"
         }
     };
 
@@ -210,7 +211,7 @@
                 var erroneousFields = [];
                 for (var i = 0; i < self.fields.length; i++) {
                     var field = self.fields[i];
-                    if (field.errors.length) {
+                    if (field.errors && field.errors.length) {
                         erroneousFields.push({ input: field.input, errors: field.errors });
                     }
                 }
@@ -250,6 +251,8 @@
                         errors.push(tmpl.apply(field.messages[currentLocale][validator.name], params));
                     } else if (lang[currentLocale] && lang[currentLocale][validator.name]) {
                         errors.push(tmpl.apply(lang[currentLocale][validator.name], params));
+                    } else {
+                        errors.push(tmpl.apply(lang[currentLocale].default, params));
                     }
 
                     if (validator.halt === true) {
